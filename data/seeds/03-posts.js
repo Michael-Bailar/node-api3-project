@@ -1,23 +1,12 @@
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex, Promise) {
   return knex('posts').insert([
-    {
-      user_id: 1,
-      text:
-        'I wish the ring had never come to me. I wish none of this had happened.',
-    },
-    {
-      user_id: 1,
-      text: 'I think we should get off the road. Get off the road! Quick!',
-    },
+    { user_id: 1, text:'I wish the ring had never come to me. I wish none of this had happened.'},
+    { user_id: 1, text: 'I think we should get off the road. Get off the road! Quick!'},
     { user_id: 1, text: 'Our business is our own.' },
     { user_id: 1, text: 'Can you protect me from yourself?' },
     { user_id: 2, text: "I ain't been droppin' no eaves, sir! Promise!" }, // 5
     { user_id: 2, text: "Of course you are, and I'm coming with you!" }, // 6
-    {
-      user_id: 2,
-      text:
-        "I made a promise, Mr Frodo. A promise. \"Don't you leave him Samwise Gamgee.\" And I don't mean to. I don't mean to.",
-    }, // 7
+    { user_id: 2, text: "I made a promise, Mr Frodo. A promise. \"Don't you leave him Samwise Gamgee.\" And I don't mean to. I don't mean to."}, // 7
     {
       user_id: 2,
       text:

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Post = require('../posts/postDb')
+const Post = require('../posts/postDb.js')
 const Users = require('./userDb.js')
 
 const router = express.Router()
@@ -20,7 +20,13 @@ router.post('/', (req, res) => {
 
 
 router.post('/:id/posts', (req, res) => {
-    //need to update
+    const text = req.body.text
+    const user_id = (req.params.id)
+    const post = {text, user_id}
+    Post.insert(post)
+    .then(post => {
+      res.status(201).json(post)
+    })
 });
 
 router.get('/', (req, res) => {
