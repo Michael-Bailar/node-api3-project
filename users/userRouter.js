@@ -5,7 +5,10 @@ const Users = require('./userDb.js')
 
 const router = express.Router()
 
-router.post('/', (req, res) => {
+router.use('./:id', validateUserId)
+
+router.post('/', validateUser, (req, res) => {
+  console.log(req.body)
   Users.insert(req.body)
     .then(user => {
       res.status(201).json(user)
@@ -19,10 +22,10 @@ router.post('/', (req, res) => {
 });
 
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validatePost, (req, res) => {
+    const user_id = req.params.id
     const text = req.body.text
-    const user_id = (req.params.id)
-    const post = {text, user_id}
+    const post = { text, user_id}
     Post.insert(post)
     .then(post => {
       res.status(201).json(post)
@@ -82,26 +85,42 @@ router.put('/:id', (req, res) => {
   const changes = req.body
   Users.update(id, changes)
     .then(user => {
-      if (user) {
         res.status(200).json(user)
-      } else {
-        res.status(404).json({ message: "post not found" })
-      }
     })
 });
 
 //custom middleware
 
 function validateUserId(req, res, next) {
-  // do your magic!
+  users.getById(req.params.id)
+    .then(user => {
+      if (user) {
+        req.user = user
+        next()
+      } else {
+        res.status(400).json({ message: "invalid user id" })
+      }
+    })
 }
 
 function validateUser(req, res, next) {
-  // do your magic!
+  const body = req.body
+
+  if (!Object.keys(body).length) {
+    res.status(400).json({message: "missing user data"})
+  } else {
+    next()
+  }
 }
 
 function validatePost(req, res, next) {
-  // do your magic!
+  const body = req.body
+
+  if (!Object.keys(body).length) {
+    res.status(400).json({message: "missing required text field"})
+  } else {
+    next()
+  }
 }
 
 module.exports = router;
